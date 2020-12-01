@@ -22,5 +22,8 @@ public interface PostAPI {
     @GET("users/")
     Call<List<User>> loadUsers();
 
+    @GET("posts/")
+    Call<List<Post>> loadPostsByUserId(@Query("userId") int userId);
+
 
 }

@@ -44,6 +44,7 @@ public class MainActivity extends Activity implements Callback<List<Post>>, Seri
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvPostVList = (ListView)findViewById(R.id.lvPostList);
+        //final TextView tvUsername = findViewById(R.id.tvUsername);
         lvPostVList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
