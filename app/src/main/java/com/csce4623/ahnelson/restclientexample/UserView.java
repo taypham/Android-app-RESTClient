@@ -83,10 +83,10 @@ public class UserView extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     user = (response.body());
                     Log.d("UserActivity","ID: " + user.getId());
-                    tvUsername.setText(user.getUsername());
-                    tvEmail.setText(user.getEmail());
-                    tvPhone.setText(user.getPhone());
-                    tvWebsite.setText(user.getWebsite());
+                    tvUsername.setText("username: "+user.getUsername());
+                    tvEmail.setText("Email: "+user.getEmail());
+                    tvPhone.setText("Phone: "+user.getPhone());
+                    tvWebsite.setText("Website: "+user.getWebsite());
                     //tvLat.setText(user.getLat());
                     //tvLng.setText(user.getLng());
                 } else {

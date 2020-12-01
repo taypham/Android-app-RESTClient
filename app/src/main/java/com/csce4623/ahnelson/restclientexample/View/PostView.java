@@ -52,7 +52,7 @@ public class PostView extends Activity implements Callback<List<Comment>>, Seria
 
         tvPostBody.setText(this.getIntent().getStringExtra("postBody"));
         tvPostTitle.setText(this.getIntent().getStringExtra("postTitle"));
-        tvUserName.setText(userId+ ". "+ this.getIntent().getStringExtra("userName"));
+        tvUserName.setText(this.getIntent().getStringExtra("userName"));
 
         findViewById(R.id.tvUserName).setOnClickListener(new View.OnClickListener() {
             @Override
