@@ -31,7 +31,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PostView extends Activity implements Callback<List<Comment>>, Serializable {
+public class PostView extends Activity implements Callback<List<Comment>> {
 
     ArrayList<Comment> myCommentsList;
     CommentAdapter myCommentsAdapter;

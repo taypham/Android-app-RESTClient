@@ -32,7 +32,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends Activity implements Callback<List<Post>>, Serializable {
+public class MainActivity extends Activity  {
 
     ArrayList<Post> myPostList;
     ArrayList<User> myUserList;
@@ -44,16 +44,16 @@ public class MainActivity extends Activity implements Callback<List<Post>>, Seri
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvPostVList = (ListView)findViewById(R.id.lvPostList);
-        //final TextView tvUsername = findViewById(R.id.tvUsername);
         lvPostVList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemClicked(parent, view, position,id);
             }
         });
-        //startQuery();
+        startQueryPosts();
         Debug.startMethodTracing("test");
 
+        // Query List of User:
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -64,9 +64,6 @@ public class MainActivity extends Activity implements Callback<List<Post>>, Seri
                 .build();
 
         PostAPI postAPI = retrofit.create(PostAPI.class);
-
-        Call<List<Post>> call = postAPI.loadPosts();
-        call.enqueue(this);
         Call<List<User>> call2 = postAPI.loadUsers();
         call2.enqueue(new Callback<List<User>>() {
             @Override
@@ -97,6 +94,7 @@ public class MainActivity extends Activity implements Callback<List<Post>>, Seri
 
     }
 
+
     void itemClicked(AdapterView<?> parent, View view, int position, long id){
 
         Intent myIntent = new Intent(this, PostView.class);
@@ -113,7 +111,7 @@ public class MainActivity extends Activity implements Callback<List<Post>>, Seri
 
     static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
 
-    public void startQuery() {
+    public void startQueryPosts() {
 
         Debug.startMethodTracing("test");
 
@@ -130,31 +128,30 @@ public class MainActivity extends Activity implements Callback<List<Post>>, Seri
 
 
         Call<List<Post>> call = postAPI.loadPosts();
-        call.enqueue(this);
-    }
-
-    @Override
-    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-        if(response.isSuccessful()) {
-            myPostList = new ArrayList<Post>(response.body());
-            myPostAdapter = new PostAdapter(this,myPostList);
-            lvPostVList.setAdapter(myPostAdapter);
-            for (Post post:myPostList) {
-                Log.d("MainActivity","ID: " + post.getId());
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful()) {
+                    myPostList = new ArrayList<Post>(response.body());
+                    myPostAdapter = new PostAdapter(getApplicationContext(),myPostList);
+                    lvPostVList.setAdapter(myPostAdapter);
+                    for (Post post:myPostList) {
+                        Log.d("MainActivity","ID: " + post.getId());
+                    }
+                } else {
+                    System.out.println(response.errorBody());
+                }
+                Debug.stopMethodTracing();
             }
-        } else {
-            System.out.println(response.errorBody());
-        }
-        Debug.stopMethodTracing();
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    @Override
-    public void onFailure(Call<List<Post>> call, Throwable t) {
-        t.printStackTrace();
-    }
-
-
-    protected class PostAdapter extends ArrayAdapter<Post> {
+    protected class PostAdapter extends ArrayAdapter<Post>{
         public PostAdapter(Context context, ArrayList<Post> posts) {
             super(context, 0, posts);
         }

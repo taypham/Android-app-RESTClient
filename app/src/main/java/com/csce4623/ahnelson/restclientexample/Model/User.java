@@ -5,7 +5,7 @@ import java.util.List;
 
 import retrofit2.Response;
 
-public class User implements Serializable {
+public class User  {
     private int id;
     private String name;
     private String username;
