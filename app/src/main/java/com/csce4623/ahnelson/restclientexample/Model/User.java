@@ -14,6 +14,48 @@ public class User implements Serializable {
     private String website;
     private String lat;
     private String lng;
+    public Address address;
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public class Address{
+        private Geo geo;
+
+        public Geo getGeo() {
+            return geo;
+        }
+
+        public void setGeo(Geo geo) {
+            this.geo = geo;
+        }
+    }
+    public class Geo{
+        private double lat;
+        private double lng;
+
+        public double getLat() {
+            return lat;
+        }
+
+        public void setLat(double lat) {
+            this.lat = lat;
+        }
+
+        public double getLng() {
+            return lng;
+        }
+
+        public void setLng(double lng) {
+            this.lng = lng;
+        }
+    }
+
 
     public int getId() {
         return id;

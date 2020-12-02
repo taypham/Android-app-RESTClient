@@ -1,6 +1,7 @@
 package com.csce4623.ahnelson.restclientexample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -87,7 +88,10 @@ public class UserView extends AppCompatActivity {
                     tvEmail.setText("Email: "+user.getEmail());
                     tvPhone.setText("Phone: "+user.getPhone());
                     tvWebsite.setText("Website: "+user.getWebsite());
-                    //tvLat.setText(user.getLat());
+                    tvLat.setText(Double.toString(user.getAddress().getGeo().getLat()));
+                    tvLng.setText(Double.toString(user.getAddress().getGeo().getLng()));
+                    
+                    //tvLat.setText();
                     //tvLng.setText(user.getLng());
                 } else {
                     System.out.println(response.errorBody());
@@ -128,8 +132,8 @@ public class UserView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), MapsActivity.class);
-               // myIntent.putExtra("lat",tvLat.getText());
-                //myIntent.putExtra("lng",tvLng.getText());
+                 myIntent.putExtra("lat",tvLat.getText());
+                 myIntent.putExtra("lng",tvLng.getText());
                 startActivity(myIntent);
 
             }

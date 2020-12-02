@@ -10,22 +10,26 @@
         android:id="@+id/tvCommentEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Email"
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/tvCommentBody"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCommentId" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCommentTitle" />
 
     <TextView
         android:id="@+id/tvCommentTitle"
-        android:layout_width="261dp"
-        android:layout_height="wrap_content"
+        android:layout_width="310dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Title"
+        android:textColor="#151515"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
         app:layout_constraintStart_toEndOf="@+id/tvCommentId"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,23 +37,25 @@
         android:id="@+id/tvCommentId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="ID"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tvCommentBody"
+        app:layout_constraintEnd_toStartOf="@+id/tvCommentTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvCommentBody"
-        android:layout_width="261dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Body"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/tvCommentEmail"
-        app:layout_constraintTop_toBottomOf="@+id/tvCommentTitle" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCommentEmail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

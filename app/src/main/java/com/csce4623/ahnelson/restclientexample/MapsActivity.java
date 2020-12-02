@@ -27,6 +27,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+
         //String lat =  this.getIntent().getStringExtra("lat");
         //String lng =  this.getIntent().getStringExtra("lng");
         //LatLng current = new LatLng(-34, 151);
@@ -45,11 +47,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        double lat =  Double.parseDouble(this.getIntent().getStringExtra("lat"));
+        double lng =  Double.parseDouble(this.getIntent().getStringExtra("lng"));
+        // Add a marker in User location and move the camera
+        LatLng user = new LatLng(lat, lng);
+        mMap.addMarker(new MarkerOptions().position(user).title("User live here: "+lat+", "+lng ));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
     }
 
 
