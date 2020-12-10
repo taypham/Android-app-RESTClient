@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,6 @@ import com.csce4623.ahnelson.restclientexample.UserView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +36,8 @@ public class PostView extends Activity implements Callback<List<Comment>> {
     ArrayList<Comment> myCommentsList;
     CommentAdapter myCommentsAdapter;
     ListView lvComments;
+    Comment comment;
+    private EditText cmtId, cmtName, cmtEmail,cmtBody;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +48,16 @@ public class PostView extends Activity implements Callback<List<Comment>> {
         TextView tvPostBody = (TextView)findViewById(R.id.tvPostBody);
         TextView tvUserName = (TextView)findViewById(R.id.tvUserName);
 
+        cmtId = (EditText) findViewById(R.id.cmtId);
+        cmtName = (EditText)findViewById(R.id.cmtName);
+        cmtEmail = (EditText)findViewById(R.id.cmtEmail);
+        cmtBody = (EditText)findViewById(R.id.cmtBody);
+
         final String userName = this.getIntent().getStringExtra("userName");
         final String userId =  this.getIntent().getStringExtra("userId");
+
+        final String lat = this.getIntent().getStringExtra("lat");
+        final String lng =  this.getIntent().getStringExtra("lng");
 
 
         tvPostBody.setText(this.getIntent().getStringExtra("postBody"));
@@ -61,6 +71,8 @@ public class PostView extends Activity implements Callback<List<Comment>> {
                 Intent myIntent = new Intent(getApplicationContext(), UserView.class);
                 myIntent.putExtra("userId",userId);
                 myIntent.putExtra("userName",userName);
+                myIntent.putExtra("lat",lat);
+                myIntent.putExtra("lng",lng);
                 startActivity(myIntent);
             }
         });
@@ -93,6 +105,11 @@ public class PostView extends Activity implements Callback<List<Comment>> {
     }
 
     public void makeNewComment(){
+        Integer id = Integer.parseInt(cmtId.getText().toString());
+        String name = cmtName.getText().toString();
+        String email = (cmtEmail.getText().toString());
+        String body = (cmtBody.getText().toString());
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -102,12 +119,16 @@ public class PostView extends Activity implements Callback<List<Comment>> {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         CommentAPI commentAPI = retrofit.create(CommentAPI.class);
-        Call<Comment> call = commentAPI.addCommentToPost(1,"Alex","ahnelson@uark.edu","Lorem Ipsum");
+        Call<Comment> call = commentAPI.addCommentToPost(id,name,email,body);
         call.enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 Comment myComment = response.body();
-                Log.d("PostView","Post Created Successfully at id: " + myComment.getId());
+                //myCommentsList.add(myComment);
+                //myCommentsAdapter = new PostView.CommentAdapter(getApplicationContext(),myCommentsList);
+                //lvComments.setAdapter(myCommentsAdapter);
+
+                Log.d("PostView","Post Created Successfully at id: " + myComment.getId()+ myComment.getName());
             }
 
             @Override

@@ -42,7 +42,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.PostView" />
+        <activity android:name=".View.PostView"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

@@ -24,6 +24,7 @@ import com.csce4623.ahnelson.restclientexample.Model.Post;
 import com.csce4623.ahnelson.restclientexample.Model.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -51,61 +52,48 @@ public class UserView extends AppCompatActivity implements OnMapReadyCallback {
     PostAdapter myPostAdapter;
     ArrayList<Post> myPostList;
     ListView lvUserPosts;
-    LatLng geo;
-
 
     private TextView tvName;
     private TextView tvUsername;
     private TextView tvEmail;
     private TextView tvPhone;
     private TextView tvWebsite;
-    private TextView tvLat;
-    private TextView tvLng;
-    Double lat;
-    Double lng;
+    private TextView tvGeo;
+    private TextView title;
 
 
-
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_view);
 
-
-
-
         String name =  this.getIntent().getStringExtra("userName");
         final int id = Integer.parseInt(this.getIntent().getStringExtra("userId"));
+        String lat =  (this.getIntent().getStringExtra("lat"));
+        String lng =  (this.getIntent().getStringExtra("lng"));
         tvName = (TextView)findViewById(R.id.tvName);
         tvUsername = (TextView)findViewById(R.id.tvUserName);
         tvEmail = (TextView)findViewById(R.id.tvUserEmail);
         tvPhone= (TextView)findViewById(R.id.tvPhone);
         tvWebsite= (TextView)findViewById(R.id.tvWebsite);
-        tvLat= (TextView)findViewById(R.id.tvLat);
-        tvLng= (TextView)findViewById(R.id.tvLng);
+        tvGeo= (TextView)findViewById(R.id.tvGeo);
+        title = (TextView)findViewById(R.id.postTitle);
         lvUserPosts = (ListView)findViewById(R.id.lvUserPosts);
 
-        tvName.setText("Name: "+ name);
-        Button btnMap = findViewById(R.id.btnMap);
+        tvName.setText(name);
+        tvGeo.setText("Location: "+lat+", "+lng);
+        title.setText("Others posts from "+name);
 
         startQueryUser(id);
         startQueryPosts(id);
-        startMaps();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapView);
+        mapFragment.getMapAsync(this);
 
 
-
-
-        /*
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(getApplicationContext(), MapsActivity.class);
-                 myIntent.putExtra("lat",tvLat.getText());
-                 myIntent.putExtra("lng",tvLng.getText());
-                startActivity(myIntent);
-            }
-        });*/
     }
 
     @Override
@@ -113,20 +101,21 @@ public class UserView extends AppCompatActivity implements OnMapReadyCallback {
         super.onDestroy();
     }
 
-    public void startMaps(){
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapView);
-        mapFragment.getMapAsync(this);
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        //LatLng user = new LatLng(lat, lng);
-        //googleMap.addMarker(new MarkerOptions().position(geo).title("User live here: "+lat+", "+lng ));
+        mMap = googleMap;
+        String name =  this.getIntent().getStringExtra("userName");
+        double lat =  Double.parseDouble(this.getIntent().getStringExtra("lat"));
+        double lng =  Double.parseDouble(this.getIntent().getStringExtra("lng"));
+        // Add a marker in User location and move the camera
+        LatLng user = new LatLng(lat, lng);
+        mMap.addMarker(new MarkerOptions().position(user).title(name+": "+lat+", "+lng ));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
 
     }
     public void startQueryUser(int id){
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -148,9 +137,6 @@ public class UserView extends AppCompatActivity implements OnMapReadyCallback {
                     tvEmail.setText("Email: "+user.getEmail());
                     tvPhone.setText("Phone: "+user.getPhone());
                     tvWebsite.setText("Website: "+user.getWebsite());
-                    tvLat.setText(Double.toString(user.getAddress().getGeo().getLat()));
-                    tvLng.setText(Double.toString(user.getAddress().getGeo().getLng()));
-                    geo = new LatLng(user.getAddress().getGeo().getLat(), user.getAddress().getGeo().getLng());
 
                 } else {
                     System.out.println(response.errorBody());
@@ -163,7 +149,6 @@ public class UserView extends AppCompatActivity implements OnMapReadyCallback {
                 t.printStackTrace();
             }
         });
-
     }
 
     public void startQueryPosts(int id){

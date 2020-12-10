@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.csce4623.ahnelson.restclientexample.API.CommentAPI;
 import com.csce4623.ahnelson.restclientexample.API.PostAPI;
+import com.csce4623.ahnelson.restclientexample.API.UserAPI;
 import com.csce4623.ahnelson.restclientexample.Model.Comment;
 import com.csce4623.ahnelson.restclientexample.Model.Post;
 import com.csce4623.ahnelson.restclientexample.Model.User;
@@ -51,41 +52,8 @@ public class MainActivity extends Activity  {
             }
         });
         startQueryPosts();
-        Debug.startMethodTracing("test");
+        startQueryUsers();
 
-        // Query List of User:
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        PostAPI postAPI = retrofit.create(PostAPI.class);
-        Call<List<User>> call2 = postAPI.loadUsers();
-        call2.enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-
-                if(response.isSuccessful()) {
-                    myUserList = new ArrayList<User>(response.body());
-                    for (User user:myUserList) {
-                        Log.d("MainActivity","ID: " + user.getId());
-                    }
-                } else {
-                    System.out.println(response.errorBody());
-                }
-                Debug.stopMethodTracing();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
     }
 
     @Override
@@ -103,13 +71,49 @@ public class MainActivity extends Activity  {
         myIntent.putExtra("postBody",myPostList.get(position).getBody());
         myIntent.putExtra("userName",myUserList.get(myPostList.get(position).getUserId()-1).getName());
         myIntent.putExtra("userId",Integer.toString(myUserList.get(myPostList.get(position).getUserId()-1).getId()));
-
+        myIntent.putExtra("lat",String.valueOf(myUserList.get(myPostList.get(position).getUserId()-1).getAddress().getGeo().getLat()));
+        myIntent.putExtra("lng",String.valueOf(myUserList.get(myPostList.get(position).getUserId()-1).getAddress().getGeo().getLng()));
         startActivity(myIntent);
     }
 
 
 
     static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
+    public void startQueryUsers(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        UserAPI userAPI = retrofit.create(UserAPI.class);
+        Call<List<User>> call = userAPI.loadUsers();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+
+                if(response.isSuccessful()) {
+                    myUserList = new ArrayList<User>(response.body());
+                    for (User user:myUserList) {
+                        Log.d("MainActivity","ID: " + user.getId());
+                        Log.d("MainActivity","Lat: " + user.getAddress().getGeo().getLat());
+                    }
+                } else {
+                    System.out.println(response.errorBody());
+                }
+                Debug.stopMethodTracing();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
 
     public void startQueryPosts() {
 

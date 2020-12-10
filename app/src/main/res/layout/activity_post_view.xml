@@ -10,14 +10,17 @@
         android:id="@+id/tvUserName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="true"
         android:linksClickable="false"
         android:text="Name"
+        android:textAlignment="center"
         android:textColor="#009688"
+        android:textIsSelectable="false"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +46,7 @@
         android:layout_marginEnd="8dp"
         android:text="Title"
         android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
@@ -56,6 +60,7 @@
         android:layout_marginEnd="8dp"
         android:lines="5"
         android:text="Body"
+        android:textColor="#171717"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,13 +70,68 @@
         android:id="@+id/lvComments"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnMakeComment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPostBody" />
+
+    <EditText
+        android:id="@+id/cmtName"
+        android:layout_width="127dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="2dp"
+        android:ems="10"
+        android:hint="Your name"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/cmtEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPostBody" />
+
+    <EditText
+        android:id="@+id/cmtEmail"
+        android:layout_width="219dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Your email"
+        android:inputType="textEmailAddress"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPostBody" />
+
+    <EditText
+        android:id="@+id/cmtId"
+        android:layout_width="122dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="9dp"
+        android:ems="10"
+        android:hint="Post ID"
+        android:inputType="number"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/cmtBody"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmtName" />
+
+    <EditText
+        android:id="@+id/cmtBody"
+        android:layout_width="226dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Your Comment Here"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmtEmail" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

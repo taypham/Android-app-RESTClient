@@ -10,7 +10,7 @@
         android:id="@+id/tvCommentEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Email"
@@ -21,8 +21,8 @@
 
     <TextView
         android:id="@+id/tvCommentTitle"
-        android:layout_width="310dp"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Title"
@@ -35,9 +35,9 @@
 
     <TextView
         android:id="@+id/tvCommentId"
-        android:layout_width="0dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="ID"
@@ -50,7 +50,7 @@
         android:id="@+id/tvCommentBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Body"
